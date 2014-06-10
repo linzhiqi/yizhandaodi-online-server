@@ -1,0 +1,20 @@
+sqlite3
+
+drop table if exists question;
+CREATE TABLE "android_metadata" ("locale" TEXT DEFAULT 'en_US');
+INSERT INTO "android_metadata" VALUES ('en_US');
+CREATE TABLE question(_id INTEGER PRIMARY KEY, question TEXT, answer TEXT, used INTEGER, difficulty INTEGER, category INTEGER, anwsercheckerid INTEGER, episode TEXT);
+CREATE TABLE tmp(question TEXT, answer TEXT, difficulty INTEGER, category INTEGER);
+.separator '	'
+.import 2012-07-06.txt tmp
+insert into question (question,answer,difficulty,category) select question,answer,difficulty,category from tmp;
+drop table tmp;
+update question set used=0;
+update question set anwsercheckerid=0;
+update question set episode="2012-07-06";
+.backup main 2012-07-06.db
+select count(*) from question;
+.schema
+
+select * from question where answer like "%xinganpifeishen%";
+update question set anwsercheckerid=1  where _id=
